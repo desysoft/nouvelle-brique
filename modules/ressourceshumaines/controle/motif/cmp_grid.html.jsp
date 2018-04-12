@@ -61,7 +61,6 @@
                             <!--th>ID</th-->
                             <th>Libellé</th>
                             <th>Description</th>
-                            <th>Action</th>
                             <!--th>Date de création</th-->
                         </tr>
                     </thead>
@@ -70,7 +69,6 @@
                             <!--th>ID</th-->
                             <th>Libellé</th>
                             <th>Description</th>
-                            <th>Action</th>
                             <!--th>Date de création</th-->
                         </tr>
                     </tfoot>
