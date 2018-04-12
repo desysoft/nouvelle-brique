@@ -68,7 +68,7 @@
                         <tr>
                             <!--th>ID</th-->
                             <th>Libellé</th>
-                            <th>Description</th>
+                            <th>Description</th> 
                             <!--th>Date de création</th-->
                         </tr>
                     </tfoot>
