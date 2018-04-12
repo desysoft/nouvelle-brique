@@ -50,7 +50,7 @@
                     <h3 class="span4"><%=OTranslate1222.getValue(MultilangueKeys.ml_MOTIF.name())%></h3>
                     <div class="span8 toolbar-btn">
                         
-                        <button type="button" class="span1 pull-right btn btn-block btn-sm background-color-theme-btn" id="modal_add" data-toggle="modal" href="modal_add">Ajouter</button>
+                       
                     </div>
                     
                 </div>
@@ -68,7 +68,7 @@
                         <tr>
                             <!--th>ID</th-->
                             <th>Libellé</th>
-                            <th>Description</th> 
+                            <th>Description</th>
                             <!--th>Date de création</th-->
                         </tr>
                     </tfoot>

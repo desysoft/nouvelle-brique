@@ -101,7 +101,7 @@ function loadDatatable(search_value, lg_REASONS_ID) {
                 return JSON.stringify(json); // return JSON string
             }
             //"type": "GET"
-        },
+        },"sDom": '<"toolbar">frtip',
         "columns": [
             //{"data": "lg_REASONS_ID"},
             {"data": "str_NAME"},
@@ -111,6 +111,7 @@ function loadDatatable(search_value, lg_REASONS_ID) {
 
 
     });
+    $("div.toolbar").html('<button type="button" class="span1 btn btn-block btn-sm background-color-theme-btn" id="modal_add" data-toggle="modal" href="modal_add">Ajouter</button>');
 }
 
 function loadDatatable_hold(search_value, lg_REASONS_ID) {
