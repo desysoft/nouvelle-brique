@@ -5,8 +5,13 @@
  */
 url = "backadmin/modules/ressourceshumaines/controle/motif/cmp_grid.jsp";
 url_transaction = "backadmin/modules/ressourceshumaines/controle/motif/cmp_transaction.jsp";
+url_sousmenu_action = "backadmin/modules/menuActions.jsp";
 $(function () {
     loadDatatable("", "");
+    var stringBtn = getActionButton();
+    //alert(stringBtn);
+    $("div.toolbar").html('<button type="button" class="span1 btn btn-block btn-sm background-color-theme-btn" id="modal_add" data-toggle="modal" href="modal_add">Ajouter</button>'+stringBtn);
+    
     $('.btn[id="modal_add"]').click(function () {
         $('#add-form #str_NAME').val('');
         $('#add-form #str_DESCRIPTION').val('');
@@ -59,6 +64,8 @@ function addReason(str_NAME, str_DESCRIPTION) {
         }
     });
 }
+
+
 function loadDatatable(search_value, lg_REASONS_ID) {
     //$("#table-content tbody").empty();
     //alert('loadDatatable')
@@ -101,17 +108,22 @@ function loadDatatable(search_value, lg_REASONS_ID) {
                 return JSON.stringify(json); // return JSON string
             }
             //"type": "GET"
-        },"sDom": '<"toolbar">frtip',
+        },"dom": '<"toolbar">frtip',
         "columns": [
             //{"data": "lg_REASONS_ID"},
             {"data": "str_NAME"},
             {"data": "str_DESCRIPTION"}/*,
              {"data": "str_STATUT"}*/
-        ]
+        ],"columnDefs": [ {
+            "targets": -1,
+            "data": null,
+            "defaultContent": "<button>Click!</button>"
+        } ]
 
 
     });
-    $("div.toolbar").html('<button type="button" class="span1 btn btn-block btn-sm background-color-theme-btn" id="modal_add" data-toggle="modal" href="modal_add">Ajouter</button>');
+    
+    
 }
 
 function loadDatatable_hold(search_value, lg_REASONS_ID) {

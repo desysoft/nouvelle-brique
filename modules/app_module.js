@@ -32,6 +32,7 @@ $(function () {
         //alert('dsfjqs');
         var key = $(this).data('keyValue');
         var result = doworkTreeflow(key);
+        sessionStorage.setItem("menuIndex", getActionClicked());
         $("#contentwrapper").effect("clip", "50000000", function () {
             //$('#contentwrapper').empty();
         });
@@ -39,13 +40,6 @@ $(function () {
         $('#contentwrapper').addClass('loader');
         var url = url_get_content + "?key=" + key + "&result=" + result;
         $.ajax(url).done(function (html, status, jqxhr) {
-
-//            $("#contentwrapper").effect("slide", "10000", function () {
-//                $('#contentwrapper').html(html);
-//                $('#contentwrapper').removeClass('loader');
-//
-//            });
-
             $('#contentwrapper').html(html);
             $('#contentwrapper').removeClass('loader');
             $("#contentwrapper").effect("slide", "slow");
@@ -66,4 +60,34 @@ function doworkTreeflow(Okey) {
             result = '';
     }
     return result;
+}
+
+function getActionClicked() {
+    return actionclicked;
+}
+
+function getActionButton() {
+    var str_VALUE = sessionStorage.getItem("menuIndex");
+    string_button = '';
+    $.ajax({
+        url: url_sousmenu_action, // La ressource ciblée
+        type: 'POST', // Le type de la requête HTTP.
+        data: 'str_VALUE=' + str_VALUE,
+        dataType: 'text',
+        success: function (response) {
+            //alert(response)//;return;
+            var obj = $.parseJSON(response);
+            //alert(obj.length);
+            if (obj.length > 0)
+            {
+                $.each(obj, function (i, value)//
+                {
+                    var btnLink = '<a data-action-btn="'+obj[i].str_NAME+'" class="brand" href="#"><i class="'+obj[i].str_ICON+'"></i><b class="caret"></b></a>';
+                    string_button+=btnLink;                   
+                });
+            }
+        }
+    });
+    //alert(string_button);
+    return string_button;
 }
