@@ -82,7 +82,7 @@ function loadDatatable(search_value, lg_REASONS_ID) {
     //alert('loadDatatable')
     var str_VALUE = sessionStorage.getItem("menuIndex");
 //    alert(str_VALUE);
-    /*var table =*/ $('#table-content').DataTable({
+    $('#table-content').DataTable({
         "language": {
             "lengthMenu": "Afficher _MENU_ enregistrements",
             "zeroRecords": "Aucune ligne trouvée",
@@ -141,14 +141,8 @@ function loadDatatable(search_value, lg_REASONS_ID) {
             }
         }
 
-        
+
     });
-    
-    /*table.on( 'order.dt search.dt', function () {
-        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-            cell.innerHTML = i+1;
-        } );
-    } ).draw();*/
 
 
 }
