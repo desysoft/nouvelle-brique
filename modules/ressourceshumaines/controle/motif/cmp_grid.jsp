@@ -20,7 +20,7 @@
 <%@page import="toolkits.utils.logger"  %>
 <%@page import="java.text.SimpleDateFormat"  %>
 
-
+<%@include file="../../../btnaction.jsp" %>
 
 
 <%! Translate oTranslate = new Translate();
@@ -32,15 +32,14 @@
 
 %>
 
-<%
-    int DATA_PER_PAGE = jdom.int_size_pagination, count = 0, pages_curr = 0;
+<%    int DATA_PER_PAGE = jdom.int_size_pagination, count = 0, pages_curr = 0;
     new logger().OCategory.info("dans ws data");
-    TEmploye OTEmploye = (TEmploye) session.getAttribute(commonparameter.AIRTIME_USER);
+    //TEmploye OTEmploye = (TEmploye) session.getAttribute(commonparameter.AIRTIME_USER);
     List<TLocality> lsTLocality = new ArrayList<TLocality>();
     List<TLocality> lsTLocality_for_page = new ArrayList<TLocality>();
     Reasonmanagement OReasonmanagement;
-    String column[] = {"strNAME","strDESCRIPTION"};
-    
+    String column[] = {"strNAME", "strDESCRIPTION"};
+
 %>
 
 
@@ -108,7 +107,9 @@
     }
     if (request.getParameter("order[0][column]") != null) {
         //orderBy = column[Integer.parseInt(request.getParameter("draw"))];
-        orderBy = "ORDER BY t."+column[Integer.parseInt(request.getParameter("order[0][column]"))];
+        orderBy = "ORDER BY t." + column[Integer.parseInt(request.getParameter("order[0][column]"))];
+    }else{
+        orderBy = "ORDER BY t.strNAME";
     }
     if (request.getParameter("lg_REASONS_ID") != null) {
         lg_REASONS_ID = request.getParameter("lg_REASONS_ID");
@@ -126,35 +127,46 @@
         limit = request.getParameter("length");
     }
     if (limit.equals("")) {
-        limit = "10";
+        limit = String.valueOf(DATA_PER_PAGE);
     }
     int limited = Integer.parseInt(start) + Integer.parseInt(limit);
-     System.out.println("limited ===== "+limited);
+    System.out.println("limited ===== " + limited);
     //lsTLocality = OReasonmanagement.getAllLocality(lg_REASONS_ID, search_value);
 
-   //lsTLocality = OReasonmanagement.getAllLocality(lg_REASONS_ID, search_value, start, limit, orderBy, order);
-   String jpql = "SELECT t FROM TLocality t WHERE (t.strNAME LIKE ?1 OR t.strDESCRIPTION LIKE ?2 ) AND t.strSTATUT = ?3 AND t.lgLOCALITYID LIKE ?4 "+orderBy;
-   System.out.println("jpql ===== "+jpql);
+    //lsTLocality = OReasonmanagement.getAllLocality(lg_REASONS_ID, search_value, start, limit, orderBy, order);
+    String jpql = "SELECT t FROM TLocality t WHERE (t.strNAME LIKE ?1 OR t.strDESCRIPTION LIKE ?2 ) AND t.strSTATUT = ?3 AND t.lgLOCALITYID LIKE ?4 " + orderBy;
+    System.out.println("jpql ===== " + jpql);
     lsTLocality = OdataManager.getEm().createQuery(jpql)
-                    .setParameter(1, "%" + search_value + "%").setParameter(2, "%" + search_value + "%")
-                    .setParameter(3, commonparameter.statut_enable)
-                    .setParameter(4, "%%").setFirstResult(Integer.parseInt(start)).setMaxResults(Integer.parseInt(String.valueOf(limit))).getResultList();
-    
-    
-    jpql = "SELECT COUNT(t.lgLOCALITYID) FROM TLocality t WHERE (t.strNAME LIKE ?1 OR t.strDESCRIPTION LIKE ?2 ) AND t.strSTATUT = ?3 AND t.lgLOCALITYID LIKE ?4 "+orderBy;
-    System.out.println("jpql count ===== "+jpql);
+            .setParameter(1, "%" + search_value + "%").setParameter(2, "%" + search_value + "%")
+            .setParameter(3, commonparameter.statut_enable)
+            .setParameter(4, "%%").setFirstResult(Integer.parseInt(start)).setMaxResults(Integer.parseInt(String.valueOf(limit))).getResultList();
+
+    jpql = "SELECT COUNT(t.lgLOCALITYID) FROM TLocality t WHERE (t.strNAME LIKE ?1 OR t.strDESCRIPTION LIKE ?2 ) AND t.strSTATUT = ?3 AND t.lgLOCALITYID LIKE ?4 " + orderBy;
+    System.out.println("jpql count ===== " + jpql);
     /*lsTLocality_for_page = OdataManager.getEm().createQuery(jpql)
                     .setParameter(1, "%" + search_value + "%").setParameter(2, "%" + search_value + "%")
                     .setParameter(3, commonparameter.statut_enable)
                     .setParameter(4, "%%").getSingleResult().toString();*/
     //lsTLocality = OReasonmanagement.getAllLocality(lg_REASONS_ID, search_value);
     String nbre_page = OdataManager.getEm().createQuery(jpql)
-                    .setParameter(1, "%" + search_value + "%").setParameter(2, "%" + search_value + "%")
-                    .setParameter(3, commonparameter.statut_enable)
-                    .setParameter(4, "%%").getSingleResult().toString();
-    
-    new logger().OCategory.info("Taille lsTLocality= "+lsTLocality.size());
-    new logger().OCategory.info("Taille lsTLocality_for_page = "+nbre_page);
+            .setParameter(1, "%" + search_value + "%").setParameter(2, "%" + search_value + "%")
+            .setParameter(3, commonparameter.statut_enable)
+            .setParameter(4, "%%").getSingleResult().toString();
+
+    new logger().OCategory.info("Taille lsTLocality= " + lsTLocality.size());
+    new logger().OCategory.info("Taille lsTLocality_for_page = " + nbre_page);
+%>
+
+<%
+    //construction des actions des boutons
+    String btnLink = "";
+    for (int i = 0; i < LstTActions.size(); i++) {
+        System.out.println("LstTActions ==== " + i + " ==== " + LstTActions.get(i).getLgACTIONSID() + " -----> " + LstTActions.get(i).getStrNAME());
+        //String  btnLink = '<a data-action-btn="'+obj[i].str_NAME+'" class="brand" href="#"><i class="'+obj[i].str_ICON+'"></i><b class="caret"></b></a>'
+        btnLink += "<span class='btn-action'><a class='link-btn-action' data-action-handler='" + LstTActions.get(i).getStrNAME() + "' title='" + OTranslate1.getValue(LstTActions.get(i).getStrTEXT()) + "' data-action-id='{thisId}' class='brand' href='#'><i class='" + LstTActions.get(i).getStrICON() + " icon'></i></a></span>";
+
+    }
+    System.out.println("btnLink JSP " + btnLink);
 %>
 
 
@@ -164,11 +176,15 @@
         if (!lsTLocality.get(i).getLgLOCALITYID().equals(commonparameter.noReasonId)) {
             JSONObject json = new JSONObject();
             String date = "";
-            json.put("lg_REASONS_ID", lsTLocality.get(i).getLgLOCALITYID());
+            //System.out.println("btnlink = "+btnLink);
+            
+            json.put("DT_RowId", lsTLocality.get(i).getLgLOCALITYID());
             json.put("str_NAME", lsTLocality.get(i).getStrNAME());
             json.put("str_DESCRIPTION", lsTLocality.get(i).getStrDESCRIPTION());
             json.put("str_STATUT", lsTLocality.get(i).getStrSTATUT());
-
+            btnLink = btnLink.replace("{thisId}", lsTLocality.get(i).getLgLOCALITYID());
+            json.put("str_BUTTON", btnLink);
+            btnLink = btnLink.replace(lsTLocality.get(i).getLgLOCALITYID(), "{thisId}");
             arrayObj.put(json);
         }
 
@@ -176,4 +192,4 @@
     String result = "{\"draw\":" + draw + ",\"recordsTotal\":" + lsTLocality.size() + ",\"recordsFiltered\":" + Integer.parseInt(nbre_page) + ",\"data\":" + arrayObj.toString() + "}";
 %>
 
-<%= result %>
+<%= result%>

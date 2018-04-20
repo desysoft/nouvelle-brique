@@ -30,7 +30,7 @@
         institutionRole = (TEmployeInstitutionRole) i.next();
         break;
     }
-    List<TActions> LstTActions = actionManager.getUserAction(institutionRole.getLgINSTITUTIONROLEID().getLgINSTITUTIONROLEID(), str_VALUE);
+    List<TActions> LstTActions = actionManager.getUserAction_new(institutionRole.getLgINSTITUTIONROLEID().getLgINSTITUTIONROLEID(), str_VALUE,commonparameter.XTYPE_ACTION_BUTTON_GROUP);
 
     System.out.println("LstTActions------------------->"+LstTActions.size());
      

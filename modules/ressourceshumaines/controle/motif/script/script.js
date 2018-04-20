@@ -6,13 +6,24 @@
 url = "backadmin/modules/ressourceshumaines/controle/motif/cmp_grid.jsp";
 url_transaction = "backadmin/modules/ressourceshumaines/controle/motif/cmp_transaction.jsp";
 url_sousmenu_action = "backadmin/modules/menuActions.jsp";
+var selected = [];
 $(function () {
+
     loadDatatable("", "");
-    var stringBtn = getActionButton();
-    //alert(stringBtn);
-    $("div.toolbar").html('<button type="button" class="span1 btn btn-block btn-sm background-color-theme-btn" id="modal_add" data-toggle="modal" href="modal_add">Ajouter</button>'+stringBtn);
+    addFunctionalityOnTable();
+    getActionButton();
     
-    $('.btn[id="modal_add"]').click(function () {
+    //$("div.toolbar").html('<button type="button" class="span1 btn btn-block btn-sm background-color-theme-btn" id="modal_add" data-toggle="modal" href="modal_add">Ajouter</button>'+stringBtn);
+    //$("div.toolbar").html(stringBtn);
+
+    /*$('button[id="modal_add"]').click(function () {
+        $('#add-form #str_NAME').val('');
+        $('#add-form #str_DESCRIPTION').val('');
+        $('.modal[id="modal_add"]').modal('show');
+    });*/
+
+    $('div.toolbar').on("click", "button[id='modal_add']",function (e) {
+        e.preventDefault();
         $('#add-form #str_NAME').val('');
         $('#add-form #str_DESCRIPTION').val('');
         $('.modal[id="modal_add"]').modal('show');
@@ -32,7 +43,7 @@ function addReason(str_NAME, str_DESCRIPTION) {
     $.ajax({
         url: url_transaction, // La ressource ciblée
         type: 'POST', // Le type de la requête HTTP.
-        data: 'mode=create&str_NAME=' + str_NAME + '&str_DESCRIPTION=' + str_DESCRIPTION ,
+        data: 'mode=create&str_NAME=' + str_NAME + '&str_DESCRIPTION=' + str_DESCRIPTION,
         dataType: 'text',
         success: function (response) {
             //alert(response)//;return;
@@ -69,7 +80,9 @@ function addReason(str_NAME, str_DESCRIPTION) {
 function loadDatatable(search_value, lg_REASONS_ID) {
     //$("#table-content tbody").empty();
     //alert('loadDatatable')
-    $('#table-content').DataTable({
+    var str_VALUE = sessionStorage.getItem("menuIndex");
+//    alert(str_VALUE);
+    /*var table =*/ $('#table-content').DataTable({
         "language": {
             "lengthMenu": "Afficher _MENU_ enregistrements",
             "zeroRecords": "Aucune ligne trouvée",
@@ -94,11 +107,17 @@ function loadDatatable(search_value, lg_REASONS_ID) {
             header: true,
             footer: true
         },
+        "pageLength": default_nb_pagination_size,
 
         //"ajax": "backadmin/modules/ressourceshumaines/controle/motif/cmp_grid.jsp",
         "ajax": {
-            "url": url + "?search_value=" + search_value + "&lg_REASONS_ID=" + lg_REASONS_ID,
+            "url": url + "?search_value=" + search_value + "&lg_REASONS_ID=" + lg_REASONS_ID + "&str_VALUE=" + str_VALUE,
             "type": "POST",
+            "data": function ( d ) {
+                //d.length = default_nb_pagination_size;
+                // d.custom = $('#myInput').val();
+                // etc
+            },
             dataFilter: function (data) {
                 var json = jQuery.parseJSON(data);
                 json.recordsTotal = json.recordsTotal;
@@ -108,23 +127,33 @@ function loadDatatable(search_value, lg_REASONS_ID) {
                 return JSON.stringify(json); // return JSON string
             }
             //"type": "GET"
-        },"dom": '<"toolbar">frtip',
+        }, 
+        "dom": '<"toolbar">frtip',
+        
         "columns": [
             //{"data": "lg_REASONS_ID"},
             {"data": "str_NAME"},
-            {"data": "str_DESCRIPTION"}/*,
-             {"data": "str_STATUT"}*/
-        ],"columnDefs": [ {
-            "targets": -1,
-            "data": null,
-            "defaultContent": "<button>Click!</button>"
-        } ]
+            {"data": "str_DESCRIPTION"},
+            {"data": "str_BUTTON"},
+        ], "rowCallback": function (row, data) {
+            if ($.inArray(data.DT_RowId, selected) !== -1) {
+                $(row).addClass('selected');
+            }
+        }
 
-
+        
     });
     
-    
+    /*table.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();*/
+
+
 }
+
+
 
 function loadDatatable_hold(search_value, lg_REASONS_ID) {
 //$("#table-content tbody").empty();

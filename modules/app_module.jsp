@@ -9,11 +9,13 @@
     }
 %>
 <%
-    //System.out.println("result ==== "+request.getParameter("result").toString());
+    //System.out.println("result brut ==== "+request.getParameter("result"));
     if (request.getParameter("result") != null && !request.getParameter("result").equals("")) {
         String result = request.getParameter("result");
+        
         System.out.println("result ==== "+result);
- %>
+        System.out.println("Taille result "+result.length());
+ %> 
         <jsp:include page="<%=result%>"></jsp:include>
  <%
     }else{

@@ -35,7 +35,7 @@
     <script src="backadmin/modules/app.js"></script>
     <script src="backadmin/modules/ressourceshumaines/controle/motif/script/script.js"></script>
     <div class="content-header">
-        
+
     </div>
 
     <div class="content-body">
@@ -49,18 +49,20 @@
                 <div class="row-fluid heading">
                     <h3 class="span4"><%=OTranslate1222.getValue(MultilangueKeys.ml_MOTIF.name())%></h3>
                     <div class="span8 toolbar-btn">
-                        
-                       
+
+
                     </div>
-                    
+
                 </div>
-                
-                <table id="table-content" class="display table-content-data" width="100%" cellspacing="0">
+
+                <table id="table-content" class="display table-content-data hover display compact cell-border" width="100%" cellspacing="0">
+                <!--table id="table-content" class="table table-striped table-bordered" width="100%" cellspacing="0"-->
                     <thead>
                         <tr>
                             <!--th>ID</th-->
                             <th>Libellé</th>
                             <th>Description</th>
+                            <th>Action</th>
                             <!--th>Date de création</th-->
                         </tr>
                     </thead>
@@ -69,6 +71,7 @@
                             <!--th>ID</th-->
                             <th>Libellé</th>
                             <th>Description</th>
+                            <th>Action</th>
                             <!--th>Date de création</th-->
                         </tr>
                     </tfoot>
@@ -79,6 +82,5 @@
 
 </div>
 <div class="content-footer">
-
-</div>
+    
 </div>
