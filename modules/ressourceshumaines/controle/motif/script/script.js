@@ -131,7 +131,7 @@ function loadDatatable(search_value, lg_REASONS_ID) {
         "dom": '<"toolbar">frtip',
         
         "columns": [
-            //{"data": "lg_REASONS_ID"},
+            {"data": "index"},
             {"data": "str_NAME"},
             {"data": "str_DESCRIPTION"},
             {"data": "str_BUTTON"},

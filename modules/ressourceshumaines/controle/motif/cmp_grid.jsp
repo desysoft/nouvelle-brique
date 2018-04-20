@@ -177,7 +177,7 @@
             JSONObject json = new JSONObject();
             String date = "";
             //System.out.println("btnlink = "+btnLink);
-            
+            json.put("index", (i+1));
             json.put("DT_RowId", lsTLocality.get(i).getLgLOCALITYID());
             json.put("str_NAME", lsTLocality.get(i).getStrNAME());
             json.put("str_DESCRIPTION", lsTLocality.get(i).getStrDESCRIPTION());

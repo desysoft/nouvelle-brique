@@ -59,7 +59,7 @@
                 <!--table id="table-content" class="table table-striped table-bordered" width="100%" cellspacing="0"-->
                     <thead>
                         <tr>
-                            <!--th>ID</th-->
+                            <th>N°</th>
                             <th>Libellé</th>
                             <th>Description</th>
                             <th>Action</th>
@@ -68,7 +68,7 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <!--th>ID</th-->
+                            <th>N°</th>
                             <th>Libellé</th>
                             <th>Description</th>
                             <th>Action</th>
