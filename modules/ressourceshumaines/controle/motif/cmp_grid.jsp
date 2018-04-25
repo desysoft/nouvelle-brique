@@ -115,6 +115,10 @@
         lg_REASONS_ID = request.getParameter("lg_REASONS_ID");
         new logger().OCategory.info(lg_REASONS_ID);
     }
+    
+    if(lg_REASONS_ID.equals("")){
+        lg_REASONS_ID = "%%";
+    }
 
     if (request.getParameter("start") != null) {
         start = request.getParameter("start");
@@ -139,7 +143,7 @@
     lsTLocality = OdataManager.getEm().createQuery(jpql)
             .setParameter(1, "%" + search_value + "%").setParameter(2, "%" + search_value + "%")
             .setParameter(3, commonparameter.statut_enable)
-            .setParameter(4, "%%").setFirstResult(Integer.parseInt(start)).setMaxResults(Integer.parseInt(String.valueOf(limit))).getResultList();
+            .setParameter(4, lg_REASONS_ID).setFirstResult(Integer.parseInt(start)).setMaxResults(Integer.parseInt(String.valueOf(limit))).getResultList();
 
     jpql = "SELECT COUNT(t.lgLOCALITYID) FROM TLocality t WHERE (t.strNAME LIKE ?1 OR t.strDESCRIPTION LIKE ?2 ) AND t.strSTATUT = ?3 AND t.lgLOCALITYID LIKE ?4 " + orderBy;
     System.out.println("jpql count ===== " + jpql);
