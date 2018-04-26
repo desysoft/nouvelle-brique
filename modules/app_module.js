@@ -92,27 +92,29 @@ function getActionButton() {
             {
                 $.each(obj, function (i, value)//<i class='" + LstTActions.get(i).getStrICON() + "'></i>
                 {
-                    //alert(obj[i].str_TEXT)
-                    var btnLink = '<button type="button" class="btn span1 btn-block btn-sm background-color-theme-btn" id="modal_add" data-toggle="modal" href="modal_add"><i class="' + obj[i].str_ICON + ' icon-white"></i> ' + obj[i].str_TEXT + '</button>'
+                    var btnLink = '<button type="button" class="btn span1 btn-block btn-sm background-color-theme-btn" id="modal_add" data-toggle="modal" href="modal_add"><i class="' + obj[i].str_ICON + ' icon-white"></i> ' + obj[i].str_TEXT + '</button>';
                     $("div.toolbar").append(btnLink);
-                   /* var index = $.inArray(btnLink, myToolbarBtn);
-                    if (index === -1) {
-                        myToolbarBtn.push(btnLink);
-                    }*//* else {
-                        myToolbarBtn.splice(index, 1);
-                        myToolbarBtn.push(btnLink);
-                    }*/
                 });
             }
         }
     });
+
 }
 
 
-function addFunctionalityOnTable() {
+function addFunctionalityOnTable(modeSelect) {//le mode select me permet de determiner si l'on peut selectionner plusieurs lignes dans la tableau: ce qui est le cas si le modeSelect = many.
     $('#table-content tbody').on('click', 'tr', function () {
+        
+        if(modeSelect!='many'){
+            var allTr =  $('#table-content tbody').find('tr');
+               allTr.each(function(){
+               $(this).find('td span i.icon').removeClass('icon-white');
+               $(this).removeClass('selected');
+
+            });
+        }
         var id = this.id;
-        //alert(id);
+//        alert(id);
         var index = $.inArray(id, selected);
         if (index === -1) {
             selected.push(id);
@@ -120,9 +122,7 @@ function addFunctionalityOnTable() {
             selected.splice(index, 1);
         }
         icon = $(this).find('td span i.icon');
-        //icon = $(this).has('td span a i');
         icon.toggleClass('icon-white');
         $(this).toggleClass('selected');
-        
     });
 }

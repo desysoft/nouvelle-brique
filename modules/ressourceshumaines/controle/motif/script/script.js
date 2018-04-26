@@ -11,7 +11,7 @@ var table;
 $(function () {
 
     loadDatatable("", "");
-    addFunctionalityOnTable();
+    addFunctionalityOnTable("");
     getActionButton();
 
     $('div.toolbar').on("click", "button[id='modal_add']", function (e) {

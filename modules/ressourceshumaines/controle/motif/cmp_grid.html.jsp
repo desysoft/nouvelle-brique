@@ -29,8 +29,6 @@
 
 <%@include file="actions/add.js.jsp" %>
 <%@include file="actions/edit.js.jsp" %>
-<%@include file="actions/delete.js.jsp" %>
-<%@include file="actions/search.js.jsp" %>
 <div class="main_content">
     <script src="backadmin/modules/app.js"></script>
     <script src="backadmin/modules/ressourceshumaines/controle/motif/script/script.js"></script>
